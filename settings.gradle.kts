@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Тулга2.0"
+rootProject.name = "TulguCoin"
 include(":app")
  
