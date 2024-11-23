@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ExtraText">
+
+    <ImageView
+        android:id="@+id/bustImage"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/redan"/>
+
+    <TextView
+        android:id="@+id/bustName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/bustImage"
+        app:layout_constraintEnd_toStartOf="@+id/bustButton"
+        app:layout_constraintTop_toTopOf="@+id/bustImage"
+        app:layout_constraintBottom_toBottomOf="@+id/bustButton"
+        app:layout_constraintVertical_bias="0.750"
+        tools:text="Посетитель ламоды"/>
+
+
+    <Button
+        android:id="@+id/bustButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1 lvl" />
+
+    <TextView
+        android:id="@+id/bustPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/bustButton"
+        app:layout_constraintStart_toStartOf="@+id/bustButton"
+        app:layout_constraintEnd_toEndOf="@+id/bustButton"
+        android:layout_marginTop="0dp"
+        android:text="1488"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

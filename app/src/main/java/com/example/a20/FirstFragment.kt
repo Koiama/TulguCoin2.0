@@ -2,15 +2,26 @@ package com.example.a20
 
 import androidx.fragment.app.Fragment
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import com.example.a20.databinding.FragmentFirstBinding
 
-class MessagesFragment : Fragment() {
-    override fun onCreateView(
-        inflater:LayoutInflater, container:ViewGroup?,
-        savedInstance: Bundle?): View? {
-        // Инфлейтинг(разворачивание) XML-файла разметки
-        return inflater.inflate(R.layout.fragment_first, container, false)
+class FirstFragment: Fragment(R.layout.fragment_first){
+
+    private var binding:FragmentFirstBinding?=null
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding=FragmentFirstBinding.bind(view)
+
+        binding?.navigateButton?.setOnClickListener{
+            val data = binding?.field?.text.toString()
+            findNavController().navigate(FirstFragmentDirections.actionFirstToSecond(data))
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding=null
     }
 }

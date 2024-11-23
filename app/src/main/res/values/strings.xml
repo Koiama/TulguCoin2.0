@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">TulguCoin</string>
+
+    <string name="confirm">Подтвердить</string>
+    <string name="reject">Отклонить</string>
+    <string name="navigate_to_second">Продолжить</string>
 </resources>
