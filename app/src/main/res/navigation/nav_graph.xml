@@ -6,21 +6,6 @@
     app:startDestination="@+id/buttonFragment">
 
 
-    <fragment android:id="@+id/firstFragment"
-        android:name="com.example.a20.FirstFragment"
-        tools:layout="@layout/fragment_first">
-        <action android:id="@+id/actionFirstToSecond"
-            app:destination="@+id/secondFragment"/>
-    </fragment>
-
-    <fragment android:id="@+id/secondFragment"
-        android:name="com.example.a20.SecondFragment"
-        tools:layout="@layout/fragment_second" >
-        <argument android:name="data"
-            app:argType="string"
-            app:nullable="true" />
-    </fragment>
-
     <fragment android:id="@+id/buttonFragment"
         android:name="com.example.a20.ButtonFragment"
         tools:layout="@layout/fragment_button">
@@ -31,11 +16,6 @@
     <fragment android:id="@+id/bustFragment"
         android:name="com.example.a20.bust.BustFragment"
         tools:layout="@layout/fragment_bust" >
-        <argument android:name="counter"
-            app:argType="string"
-            app:nullable="true"/>
-        <action android:id="@+id/actionBustToButton"
-            app:destination="@id/buttonFragment"/>
     </fragment>
 
 </navigation>

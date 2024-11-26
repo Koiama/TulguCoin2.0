@@ -4,11 +4,13 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.a20.databinding.ActivityMainBinding
 import androidx.appcompat.widget.Toolbar
-import com.example.a20.bust.BustFragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private lateinit var binding: ActivityMainBinding // Объявляем binding как свойство класса
+    private lateinit var navController: NavController // Объявляем NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +22,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         // Если нужно, вы можете настроить заголовок
         supportActionBar?.title = "ТулГУ coin"
 
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, ButtonFragment())
-                .commit()
-        }
+
+
+        // Инициализация NavHostFragment и NavController
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment // Убедитесь, что идентификатор совпадает
+        navController = navHostFragment.navController // Получаем NavController
+
     }
 }
 

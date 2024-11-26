@@ -2,6 +2,7 @@ package com.example.a20
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -10,6 +11,7 @@ import com.example.a20.databinding.FragmentButtonBinding
 class ButtonFragment : Fragment(R.layout.fragment_button) {
     private var binding: FragmentButtonBinding? = null
     private var counter: Int = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentButtonBinding.bind(view)
@@ -28,8 +30,7 @@ class ButtonFragment : Fragment(R.layout.fragment_button) {
         }
 
         binding?.PetsButton?.setOnClickListener {
-            val data = counter.toString()
-            findNavController().navigate(ButtonFragmentDirections.actionButtonToBust(data))
+            findNavController().navigate(ButtonFragmentDirections.actionButtonToBust())
         }
 
     }
