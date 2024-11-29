@@ -9,7 +9,6 @@ import androidx.navigation.fragment.NavHostFragment
 
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
-    private lateinit var binding: ActivityMainBinding // Объявляем binding как свойство класса
     private lateinit var navController: NavController // Объявляем NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,9 +24,12 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
 
         // Инициализация NavHostFragment и NavController
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment // Убедитесь, что идентификатор совпадает
-        navController = navHostFragment.navController // Получаем NavController
+        if (savedInstanceState == null) {
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment // Убедитесь, что идентификатор совпадает
+            navController = navHostFragment.navController // Получаем NavController
 
+        }
     }
 }
 

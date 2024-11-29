@@ -30,7 +30,7 @@ class ButtonFragment : Fragment(R.layout.fragment_button) {
         }
 
         binding?.PetsButton?.setOnClickListener {
-            findNavController().navigate(ButtonFragmentDirections.actionButtonToBust())
+            findNavController().navigate(ButtonFragmentDirections.actionButtonToBust(counter))
         }
 
     }

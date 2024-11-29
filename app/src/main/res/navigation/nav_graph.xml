@@ -11,11 +11,17 @@
         tools:layout="@layout/fragment_button">
         <action android:id="@+id/actionButtonToBust"
             app:destination="@id/bustFragment"/>
+        <argument app:argType="integer"
+            android:name="counter"/>
     </fragment>
 
     <fragment android:id="@+id/bustFragment"
         android:name="com.example.a20.bust.BustFragment"
         tools:layout="@layout/fragment_bust" >
+        <action android:id="@+id/actionBustToButton"
+            app:destination="@id/buttonFragment"/>
+        <argument app:argType="integer"
+            android:name="counter"/>
     </fragment>
 
 </navigation>

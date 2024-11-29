@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.a20.R
 import com.example.a20.bust.Bust
 
-class BustAdapter: RecyclerView.Adapter<BustAdapter.BustViewHolder>() {
+class BustAdapter(var counter : Int): RecyclerView.Adapter<BustAdapter.BustViewHolder>() {
 
     var data: List<Bust> = emptyList()
         set(newValue){
             field = newValue
             notifyDataSetChanged()
         }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BustViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -39,11 +40,13 @@ class BustAdapter: RecyclerView.Adapter<BustAdapter.BustViewHolder>() {
 
 
             holder.bustLvl.setOnClickListener {
-                bust.count++
-                holder.bustLvl.text = "${bust.count} lvl"
-                holder.bustPrice.text = (bust.price * bust.count).toString()// Обновляем текст для цены
+                if (counter> bust.price) {
+                    bust.count++
+                    holder.bustLvl.text = "${bust.count} lvl"
+                    holder.bustPrice.text = (bust.price * bust.count).toString()// Обновляем текст для цены
+                    counter=counter-bust.price
+                }
             }
-
 
         }
 
