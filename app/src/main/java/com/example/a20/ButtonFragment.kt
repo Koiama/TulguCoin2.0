@@ -1,6 +1,7 @@
 package com.example.a20
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,14 @@ class ButtonFragment : Fragment(R.layout.fragment_button) {
     private var binding: FragmentButtonBinding? = null
     private var counter: Int = 0
 
+    private val sharedPref: SharedPreferences by lazy {
+        requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+    }
+
+    private val prefEditor: SharedPreferences.Editor by lazy {
+        sharedPref.edit()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentButtonBinding.bind(view)
@@ -19,8 +28,9 @@ class ButtonFragment : Fragment(R.layout.fragment_button) {
         savedInstanceState?.let{
             counter = it.getInt(KEY_COUNTER, 0)
         }
+
         // Загружаем значение счётчика из SharedPreferences
-        loadCounter()
+        counter = sharedPref.getInt(KEY_COUNTER, 0)
         // Обновляем текст счётчика
         updateCounterText()
 
@@ -45,23 +55,10 @@ class ButtonFragment : Fragment(R.layout.fragment_button) {
     //Сохранение счётчика в SharedPreferences
     override fun onPause() {
         super.onPause()
-        saveCounter()
+        prefEditor.putInt(KEY_COUNTER,counter)
+        prefEditor.apply()
     }
 
-    //Загружаем значение счётчика из SharedPreferences
-    private fun loadCounter(){
-        val sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        counter = sharedPreferences.getInt(KEY_COUNTER,0)
-    }
-
-    //Сохраняем значение счётчика в SharedPreferences
-    private fun saveCounter() {
-        val sharedPreferences = requireActivity().getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE)
-        with(sharedPreferences.edit()){
-            putInt(KEY_COUNTER,counter)
-            apply()
-        }
-    }
 
     // Обновление счетчика в TextView
     private fun updateCounterText() {
