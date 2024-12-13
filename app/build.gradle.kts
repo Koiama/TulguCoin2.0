@@ -52,4 +52,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.8.4")
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0") // Основная библиотека корутин
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0") // Библиотека для Android
+
 }

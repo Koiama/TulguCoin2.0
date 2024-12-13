@@ -3,6 +3,7 @@ package com.example.a20.bust
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +14,6 @@ import com.example.a20.databinding.FragmentBustBinding
 class BustFragment : Fragment(R.layout.fragment_bust) {
 
     private var binding: FragmentBustBinding?= null
-
 
     private lateinit var bustRecycler: RecyclerView
     private lateinit var bustAdapter: BustAdapter
@@ -28,7 +28,7 @@ class BustFragment : Fragment(R.layout.fragment_bust) {
 
         // Инициализация RecyclerView
         bustRecycler = view.findViewById(R.id.busts)
-        bustAdapter = BustAdapter(counter)
+        bustAdapter = BustAdapter(requireContext(),viewLifecycleOwner.lifecycleScope,counter)
 
         bustRecycler.layoutManager = LinearLayoutManager(requireContext())
         bustRecycler.adapter = bustAdapter

@@ -1,23 +1,67 @@
 package com.example.a20.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.RecyclerView
 import com.example.a20.R
 import com.example.a20.bust.Bust
+import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class BustAdapter(var counter : Int): RecyclerView.Adapter<BustAdapter.BustViewHolder>() {
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "bust_data") // создание файла для хранения данных
 
-    var data: List<Bust> = emptyList()
-        set(newValue){
+class BustAdapter(
+    private val context: Context,
+    private val coroutineScope: CoroutineScope,
+    var counter: Int
+) : RecyclerView.Adapter<BustAdapter.BustViewHolder>() {
+
+    var data: List<Bust> = emptyList() // создание элементов интерфейса
+        set(newValue) {
             field = newValue
+            loadBustCounts() // Загружаем значения при установке новых данных
             notifyDataSetChanged()
         }
 
+    private fun loadBustCounts() { // метод для загрузки значений
+        coroutineScope.launch{
+            data.forEachIndexed{ index, bust ->
+                val key = intPreferencesKey("bust_count_$index")
+                val loadedCount = context.dataStore.data.map { preferences ->
+                    preferences[key] ?: 0
+                } .first()
+                    bust.count = loadedCount
+            }
+            withContext(Dispatchers.Main) {
+                notifyDataSetChanged() // Обновляем адаптер после загрузки данных
+            }
+        }
+    }
+
+    private fun saveBustCounts () { // метод для загрузки значений
+        coroutineScope.launch {
+            data.forEachIndexed { index, bust ->
+                val key = intPreferencesKey("bust_count_$index")
+                context.dataStore.edit{ preferences ->
+                    preferences[key] = bust.count // сохраняем текущее значение
+                }
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BustViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -45,6 +89,7 @@ class BustAdapter(var counter : Int): RecyclerView.Adapter<BustAdapter.BustViewH
                     holder.bustLvl.text = "${bust.count} lvl"
                     holder.bustPrice.text = (bust.price * bust.count).toString()// Обновляем текст для цены
                     counter=counter-bust.price
+                    saveBustCounts() // Сохраняем обновленные значения
                 }
             }
 
@@ -52,10 +97,10 @@ class BustAdapter(var counter : Int): RecyclerView.Adapter<BustAdapter.BustViewH
 
     }
 
-    class BustViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BustViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) { // хранение ссылок на view
         val bustImage: ImageView= itemView.findViewById(R.id.bustImage)
         val bustName: TextView = itemView.findViewById(R.id.bustName)
         val bustLvl: Button = itemView.findViewById(R.id.bustButton)
-        val bustPrice: TextView = itemView.findViewById(R.id.bustPrice) // Убедитесь, что это правильно
+        val bustPrice: TextView = itemView.findViewById(R.id.bustPrice)
     }
 }
