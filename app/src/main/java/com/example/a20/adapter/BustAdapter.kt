@@ -27,24 +27,26 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "bu
 class BustAdapter(
     private val context: Context,
     private val coroutineScope: CoroutineScope,
-    var counter: Int
+    var counter: Int,
+    private val dataStore: DataStore<Preferences> // Используем переданный dataStore
 ) : RecyclerView.Adapter<BustAdapter.BustViewHolder>() {
 
-    var data: List<Bust> = emptyList() // создание элементов интерфейса
+    var data: List<Bust> = emptyList()
         set(newValue) {
             field = newValue
             loadBustCounts() // Загружаем значения при установке новых данных
             notifyDataSetChanged()
         }
 
-    private fun loadBustCounts() { // метод для загрузки значений
-        coroutineScope.launch{
-            data.forEachIndexed{ index, bust ->
+    private fun loadBustCounts() {
+        coroutineScope.launch {
+            data.forEachIndexed { index, bust ->
                 val key = intPreferencesKey("bust_count_$index")
-                val loadedCount = context.dataStore.data.map { preferences ->
+                // Изменение: используем переданный dataStore
+                val loadedCount = dataStore.data.map { preferences ->
                     preferences[key] ?: 0
-                } .first()
-                    bust.count = loadedCount
+                }.first()
+                bust.count = loadedCount
             }
             withContext(Dispatchers.Main) {
                 notifyDataSetChanged() // Обновляем адаптер после загрузки данных
@@ -56,7 +58,7 @@ class BustAdapter(
         coroutineScope.launch {
             data.forEachIndexed { index, bust ->
                 val key = intPreferencesKey("bust_count_$index")
-                context.dataStore.edit{ preferences ->
+                dataStore.edit{ preferences ->
                     preferences[key] = bust.count // сохраняем текущее значение
                 }
             }
